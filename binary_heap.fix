@@ -1,0 +1,188 @@
+// This module provides a [binary heap](https://en.wikipedia.org/wiki/Binary_heap) implementation.
+module BinaryHeap;
+
+import BinaryHeap.BinaryArrayTree;
+
+// The binary heap.
+// 
+// The first type parameter is the type of the priority object to be used.
+// The type must implement the `Priority` trait.
+// 
+// The priority objects that prioritize the maximum or minimum value based on comparison with the `LessThan` trait are 
+// provided in this module (`PriorityMaximum` and `PriorityMinimum`).
+// It is recommended to use the `MaxBinaryHeap` and `MinBinaryHeap` type aliases when using them.
+type BinaryHeap p e = unbox struct { _d : Array e, _p : p };
+
+// The maximum binary heap.
+type MaxBinaryHeap e = BinaryHeap (PriorityMaximum e) e;
+
+namespace MaxBinaryHeap {
+    // Create an empty maximum heap.
+    empty : MaxBinaryHeap e;
+    empty = BinaryHeap::empty(PriorityMaximum {});
+}
+
+// The minimum binary heap.
+type MinBinaryHeap e = BinaryHeap (PriorityMinimum e) e;
+
+namespace MinBinaryHeap {
+    // Create an empty minimum heap.
+    empty : MinBinaryHeap e;
+    empty = BinaryHeap::empty(PriorityMinimum {});
+}
+
+// The trait for priority objects.
+trait p : Priority {
+    // The element to be compared.
+    type Elem p;
+    // Compare two elements.
+    // 
+    // Returns true iff the first element has less priority than the second element.
+    compare : Elem p -> Elem p -> p -> Bool;
+}
+
+// Priority object that prioritizes the larger element under comparison by `LessThan`.
+type PriorityMaximum e = struct {};
+
+impl [e : LessThan] PriorityMaximum e : Priority {
+    type Elem (PriorityMaximum e) = e;
+    compare = |x, y, _| x < y;
+}
+
+// Priority object that prioritizes the smaller element under comparison by `LessThan`.
+type PriorityMinimum e = struct {};
+
+impl [e : LessThan] PriorityMinimum e : Priority {
+    type Elem (PriorityMinimum e) = e;
+    compare = |x, y, _| x > y;
+}
+
+namespace BinaryHeap {
+    // Get the size of the heap.
+    get_size : BinaryHeap p e -> I64;
+    get_size = |heap| heap.@_d.get_size;
+
+    // Get the most prioritized element in the heap.
+    //
+    // This function returns `none()` if the heap is empty.
+    //
+    // This function does not remove the element.
+    get_top : BinaryHeap p e -> Option e;
+    get_top = |heap| if heap.get_size > 0 { some(heap._at(0)) } else { none() };
+
+    // Create an empty heap.
+    // 
+    // The first argument is the priority object.
+    empty : p -> BinaryHeap p e;
+    empty = |p| BinaryHeap { _d : [], _p : p };
+
+    _at : I64 -> BinaryHeap p e -> e;
+    _at = |i, heap| heap.@_d.@(i);
+
+    _set : I64 -> e -> BinaryHeap p e -> BinaryHeap p e;
+    _set = |i, x, heap| heap.mod__d(Array::set(i, x));
+
+    // Push an element to the heap.
+    push : [p : Priority, Elem p = e] e -> BinaryHeap p e -> BinaryHeap p e;
+    push = |x, heap| (
+        // Priority object.
+        let p = heap.@_p;
+
+        // Extend the array.
+        // For this, we insert `x` here, but it can be any value.
+        let heap = heap.mod__d(Array::push_back(x));
+        let idx = heap.get_size - 1;
+
+        // Bubble up and determine where to insert x.
+        let (heap, idx) = loop((heap, idx), |(heap, idx)|
+            // If reached the root, stop.
+            if idx == 0 { 
+                break $ (heap, idx)
+            };
+
+            // If the parent is greater than or equal to `x`, stop.
+            let par_idx = BinaryArrayTree::parent_idx_uncheck(idx);
+            if !p.compare(heap._at(par_idx), x) { 
+                break $ (heap, idx)
+            };
+            // Swap the parent and the child.
+            let par = heap._at(par_idx);
+            let heap = heap._set(idx, par);
+            continue $ (heap, par_idx)
+        );
+        heap._set(idx, x)
+    );
+
+    // Pop the most prioritized element from the heap.
+    pop : [p : Priority, Elem p = e] BinaryHeap p e -> BinaryHeap p e;
+    pop = |heap| (
+        // Priority object.
+        let p = heap.@_p;
+
+        // If the heap is empty, return.
+        if heap.get_size == 0 { heap };
+
+        // Remove the last element.
+        let x = heap._at(heap.get_size - 1);
+        let heap = heap.mod__d(Array::pop_back);
+        let size = heap.get_size;
+
+        // If the heap becomes empty, return.
+        if size == 0 { heap };
+
+        // Bubble down and determine where to insert x.
+        let (heap, idx) = loop((heap, 0), |(heap, idx)|
+            // If `idx` has both children, swap `x` with the greater child.
+            let r_idx = BinaryArrayTree::child_idx_r(idx);
+            if r_idx < size {
+                // `idx` has both children.
+                let l_idx = BinaryArrayTree::child_idx_l(idx);
+                let cl = heap._at(l_idx);
+                let cr = heap._at(r_idx);
+                let (y_idx, y, z_idx, z) = if p.compare(cl, cr) {
+                    (l_idx, cl, r_idx, cr)
+                } else {
+                    (r_idx, cr, l_idx, cl)
+                };
+                // y <= z holds.
+                if p.compare(x, z) {
+                    // Swap `x` and `z`.
+                    let heap = heap._set(idx, z);
+                    continue $ (heap, z_idx)
+                };
+                break $ (heap, idx)
+            };
+
+            // If `idx` has only left child and it is greater than `x`, swap them.
+            let l_idx = BinaryArrayTree::child_idx_l(idx);
+            if l_idx < size {
+                let cl = heap._at(l_idx);
+                if p.compare(x, cl) {
+                    // Swap `x` and `cl`.
+                    let heap = heap._set(idx, cl);
+                    continue $ (heap, l_idx)
+                };
+                break $ (heap, idx)
+            };
+
+            // If `idx` has no child, stop.
+            break $ (heap, idx)
+        );
+        heap._set(idx, x)
+    );
+
+    _to_string : [e : ToString] BinaryHeap p e -> String;
+    _to_string = |heap| (
+        let stringify_below = fix $ |stringify_below, idx, depth| (
+            if idx >= heap.get_size { "" };
+            let x = heap._at(idx);
+            let l_idx = BinaryArrayTree::child_idx_l(idx);
+            let r_idx = BinaryArrayTree::child_idx_r(idx);
+            let l_str = stringify_below(l_idx, depth + 1);
+            let r_str = stringify_below(r_idx, depth + 1);
+            let indent = Iterator::range(0, depth).map(|_| " ").join("");
+            indent + x.to_string + "\n" + l_str + r_str
+        );
+        "BinaryHeap, size = " + heap.get_size.to_string + "\n" + stringify_below(0, 0)
+    );
+}

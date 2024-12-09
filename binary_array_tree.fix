@@ -1,0 +1,19 @@
+module BinaryHeap.BinaryArrayTree;
+
+// The tree is stored in a vector.
+type BinaryArrayTree e = Array e;
+
+namespace BinaryArrayTree {
+    // Get the index of the left child
+    child_idx_l : I64 -> I64;
+    child_idx_l = |i| 2*i + 1;
+
+    // Get the index of the right child
+    child_idx_r : I64 -> I64;
+    child_idx_r = |i| 2*i + 2;
+
+    // Get the index of the parent
+    // This function does not check if the index is valid.
+    parent_idx_uncheck : I64 -> I64;
+    parent_idx_uncheck = |i| (i - 1) / 2;
+}

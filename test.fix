@@ -1,0 +1,164 @@
+module Test;
+
+import BinaryHeap;
+
+test_common : IO ();
+test_common = (
+    let heap = BinaryHeap::empty(PriorityMaximum {});
+    assert_eq(|_|"1", heap.get_top, none());;
+
+    let heap = heap.push(3);
+    // [3]
+    assert_eq(|_|"2", heap.get_top, some(3));;
+
+    let heap = heap.push(1);
+    // [3, 1]
+    assert_eq(|_|"3", heap.get_top, some(3));;
+
+    let heap = heap.push(5);
+    // [5, 3, 1]
+    assert_eq(|_|"4", heap.get_top, some(5));;
+
+    let heap = heap.push(2);
+    // [5, 3, 2, 1]
+    assert_eq(|_|"5", heap.get_top, some(5));;
+
+    let heap = heap.pop;
+    // [3, 2, 1]
+    assert_eq(|_|"7", heap.get_top, some(3));;
+
+    let heap = heap.pop;
+    // [2, 1]
+    assert_eq(|_|"8", heap.get_top, some(2));;
+
+    let heap = heap.push(4);
+    // [4, 2, 1]
+    assert_eq(|_|"9", heap.get_top, some(4));;
+
+    let heap = heap.push(1);
+    // [4, 2, 1, 1]
+    assert_eq(|_|"10", heap.get_top, some(4));;
+
+    let heap = heap.push(3);
+    // [4, 3, 2, 1, 1]
+    assert_eq(|_|"11", heap.get_top, some(4));;
+
+    let heap = heap.pop;
+    // [3, 2, 1, 1]
+    assert_eq(|_|"13", heap.get_top, some(3));;
+
+    let heap = heap.pop;
+    // [2, 1, 1]
+    assert_eq(|_|"14", heap.get_top, some(2));;
+
+    let heap = heap.pop;
+    // [1, 1]
+    assert_eq(|_|"15", heap.get_top, some(1));;
+
+    let heap = heap.pop;
+    // [1]
+    assert_eq(|_|"16", heap.get_top, some(1));;
+
+    let heap = heap.pop;
+    // []
+    assert_eq(|_|"17", heap.get_top, none());;
+
+    pure()
+);
+
+test_maximum : IO ();
+test_maximum = (
+    let heap = MaxBinaryHeap::empty : MaxBinaryHeap I64;
+    assert_eq(|_|"1", heap.get_top, none());;
+
+    let heap = heap.push(1);
+    // [1]
+    assert_eq(|_|"2", heap.get_top, some(1));;
+
+    let heap = heap.push(2);
+    // [2, 1]
+    assert_eq(|_|"3", heap.get_top, some(2));;
+
+    let heap = heap.pop;
+    // [1]
+    assert_eq(|_|"4", heap.get_top, some(1));;
+
+    let heap = heap.pop;
+    // []
+    assert_eq(|_|"5", heap.get_top, none());;
+
+    pure()
+);
+
+test_minimum : IO ();
+test_minimum = (
+    let heap = MinBinaryHeap::empty : MinBinaryHeap I64;
+    assert_eq(|_|"1", heap.get_top, none());;
+
+    let heap = heap.push(1);
+    // [1]
+    assert_eq(|_|"2", heap.get_top, some(1));;
+
+    let heap = heap.push(2);
+    // [1, 2]
+    assert_eq(|_|"3", heap.get_top, some(1));;
+
+    let heap = heap.pop;
+    // [2]
+    assert_eq(|_|"4", heap.get_top, some(2));;
+
+    let heap = heap.pop;
+    // []
+    assert_eq(|_|"5", heap.get_top, none());;
+
+    pure()
+);
+
+// Priority that prioritizes the value close to the target.
+type TargetPriority = struct { target : I64 };
+
+impl TargetPriority : Priority {
+    type Elem TargetPriority = I64;
+    compare = |x, y, this| (x - this.@target).abs > (y - this.@target).abs;
+}
+
+test_dynamic_priority : IO ();
+test_dynamic_priority = (
+    let heap = BinaryHeap::empty(TargetPriority { target : 10 });
+    assert_eq(|_|"1", heap.get_top, none());;
+
+    let heap = heap.push(1);
+    // [1]
+    assert_eq(|_|"2", heap.get_top, some(1));;
+
+    let heap = heap.push(11);
+    // [11, 1]
+    assert_eq(|_|"3", heap.get_top, some(11));;
+
+    let heap = heap.push(8);
+    // [11, 1, 8]
+    assert_eq(|_|"4", heap.get_top, some(11));;
+
+    let heap = heap.pop;
+    // [8, 1]
+    assert_eq(|_|"5", heap.get_top, some(8));;
+
+    let heap = heap.pop;
+    // [1]
+    assert_eq(|_|"6", heap.get_top, some(1));;
+
+    let heap = heap.pop;
+    // []
+    assert_eq(|_|"7", heap.get_top, none());;
+
+    pure()
+);
+
+test : IO ();
+test = (
+    test_common;;
+    test_maximum;;
+    test_minimum;;
+    test_dynamic_priority;;
+    pure()
+);
