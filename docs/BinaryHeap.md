@@ -65,27 +65,11 @@ Returns true iff the first element has less priority than the second element.
 
 ## `namespace BinaryHeap::BinaryHeap`
 
-### `@_d : BinaryHeap::BinaryHeap p e -> Std::Array e`
-
-Retrieves the field `_d` from a value of `BinaryHeap`.
-
-### `@_p : BinaryHeap::BinaryHeap p e -> p`
-
-Retrieves the field `_p` from a value of `BinaryHeap`.
-
 ### `_at : Std::I64 -> BinaryHeap::BinaryHeap p e -> e`
 
 ### `_set : Std::I64 -> e -> BinaryHeap::BinaryHeap p e -> BinaryHeap::BinaryHeap p e`
 
 ### `_to_string : [e : Std::ToString] BinaryHeap::BinaryHeap p e -> Std::String`
-
-### `act__d : [f : Std::Functor] (Std::Array e -> f (Std::Array e)) -> BinaryHeap::BinaryHeap p e -> f (BinaryHeap::BinaryHeap p e)`
-
-Updates a value of `BinaryHeap` by applying a functorial action to field `_d`.
-
-### `act__p : [f : Std::Functor] (p -> f p) -> BinaryHeap::BinaryHeap p e -> f (BinaryHeap::BinaryHeap p e)`
-
-Updates a value of `BinaryHeap` by applying a functorial action to field `_p`.
 
 ### `empty : p -> BinaryHeap::BinaryHeap p e`
 
@@ -105,14 +89,6 @@ This function returns `none()` if the heap is empty.
 
 This function does not remove the element.
 
-### `mod__d : (Std::Array e -> Std::Array e) -> BinaryHeap::BinaryHeap p e -> BinaryHeap::BinaryHeap p e`
-
-Updates a value of `BinaryHeap` by applying a function to field `_d`.
-
-### `mod__p : (p -> p) -> BinaryHeap::BinaryHeap p e -> BinaryHeap::BinaryHeap p e`
-
-Updates a value of `BinaryHeap` by applying a function to field `_p`.
-
 ### `pop : [p : BinaryHeap::Priority, BinaryHeap::Priority::Elem p = e] BinaryHeap::BinaryHeap p e -> BinaryHeap::BinaryHeap p e`
 
 Pop the most prioritized element from the heap.
@@ -120,14 +96,6 @@ Pop the most prioritized element from the heap.
 ### `push : [p : BinaryHeap::Priority, BinaryHeap::Priority::Elem p = e] e -> BinaryHeap::BinaryHeap p e -> BinaryHeap::BinaryHeap p e`
 
 Push an element to the heap.
-
-### `set__d : Std::Array e -> BinaryHeap::BinaryHeap p e -> BinaryHeap::BinaryHeap p e`
-
-Updates a value of `BinaryHeap` by setting field `_d` to a specified one.
-
-### `set__p : p -> BinaryHeap::BinaryHeap p e -> BinaryHeap::BinaryHeap p e`
-
-Updates a value of `BinaryHeap` by setting field `_p` to a specified one.
 
 ## `namespace BinaryHeap::MaxBinaryHeap`
 
