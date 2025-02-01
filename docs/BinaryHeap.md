@@ -99,13 +99,13 @@ Push an element to the heap.
 
 ## `namespace BinaryHeap::MaxBinaryHeap`
 
-### `empty : BinaryHeap::BinaryHeap (BinaryHeap::PriorityMaximum e) e`
+### `empty : BinaryHeap::MaxBinaryHeap e`
 
 Create an empty maximum heap.
 
 ## `namespace BinaryHeap::MinBinaryHeap`
 
-### `empty : BinaryHeap::BinaryHeap (BinaryHeap::PriorityMinimum e) e`
+### `empty : BinaryHeap::MinBinaryHeap e`
 
 Create an empty minimum heap.
 

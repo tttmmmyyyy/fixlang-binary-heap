@@ -9,7 +9,7 @@ version = "0.1.0"
 # authors = ["Alice", "Bob"]
 
 ## Project description.
-# description = "This is a Fix project."
+description = "provides a binary heap implementation."
 
 # Project license.
 license = "MIT"
