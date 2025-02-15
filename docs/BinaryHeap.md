@@ -2,11 +2,11 @@
 
 This module provides a [binary heap](https://en.wikipedia.org/wiki/Binary_heap) implementation.
 
-# Types and aliases
+## Types and aliases
 
-## `namespace BinaryHeap`
+### `namespace BinaryHeap`
 
-### `type BinaryHeap p e = unbox struct { ...fields... }`
+#### `type BinaryHeap p e = unbox struct { ...fields... }`
 
 The binary heap.
 
@@ -17,71 +17,71 @@ The priority objects that prioritize the maximum or minimum value based on compa
 provided in this module (`PriorityMaximum` and `PriorityMinimum`).
 It is recommended to use the `MaxBinaryHeap` and `MinBinaryHeap` type aliases when using them.
 
-#### field `_d : Std::Array e`
+##### field `_d : Std::Array e`
 
-#### field `_p : p`
+##### field `_p : p`
 
-### `type MaxBinaryHeap = BinaryHeap::BinaryHeap (BinaryHeap::PriorityMaximum e) e`
+#### `type MaxBinaryHeap = BinaryHeap::BinaryHeap (BinaryHeap::PriorityMaximum e) e`
 
 The maximum binary heap.
 
-### `type MinBinaryHeap = BinaryHeap::BinaryHeap (BinaryHeap::PriorityMinimum e) e`
+#### `type MinBinaryHeap = BinaryHeap::BinaryHeap (BinaryHeap::PriorityMinimum e) e`
 
 The minimum binary heap.
 
-### `type PriorityMaximum e = unbox struct { ...fields... }`
+#### `type PriorityMaximum e = unbox struct { ...fields... }`
 
 Priority object that prioritizes the larger element under comparison by `LessThan`.
 
-### `type PriorityMinimum e = unbox struct { ...fields... }`
+#### `type PriorityMinimum e = unbox struct { ...fields... }`
 
 Priority object that prioritizes the smaller element under comparison by `LessThan`.
 
-# Traits and aliases
+## Traits and aliases
 
-## `namespace BinaryHeap`
+### `namespace BinaryHeap`
 
-### `trait p : Priority`
+#### trait `p : Priority`
 
 The trait for priority objects.
 
-#### associated type `Elem p`
+##### associated type `Elem p`
 
 The element to be compared.
 
-#### method `compare : BinaryHeap::Priority::Elem p -> BinaryHeap::Priority::Elem p -> p -> Std::Bool`
+##### method `compare : BinaryHeap::Priority::Elem p -> BinaryHeap::Priority::Elem p -> p -> Std::Bool`
 
 Compare two elements.
 
 Returns true iff the first element has less priority than the second element.
 
-# Trait implementations
+## Trait implementations
 
 ### `impl [e : Std::LessThan] BinaryHeap::PriorityMaximum e : BinaryHeap::Priority`
 
 ### `impl [e : Std::LessThan] BinaryHeap::PriorityMinimum e : BinaryHeap::Priority`
 
-# Values
+## Values
 
-## `namespace BinaryHeap::BinaryHeap`
+### `namespace BinaryHeap::BinaryHeap`
 
-### `_at : Std::I64 -> BinaryHeap::BinaryHeap p e -> e`
+#### `_at : Std::I64 -> BinaryHeap::BinaryHeap p e -> e`
 
-### `_set : Std::I64 -> e -> BinaryHeap::BinaryHeap p e -> BinaryHeap::BinaryHeap p e`
+#### `_set : Std::I64 -> e -> BinaryHeap::BinaryHeap p e -> BinaryHeap::BinaryHeap p e`
 
-### `_to_string : [e : Std::ToString] BinaryHeap::BinaryHeap p e -> Std::String`
+#### `_to_string : [e : Std::ToString] BinaryHeap::BinaryHeap p e -> Std::String`
 
-### `empty : p -> BinaryHeap::BinaryHeap p e`
+#### `empty : p -> BinaryHeap::BinaryHeap p e`
 
 Create an empty heap.
 
 The first argument is the priority object.
 
-### `get_size : BinaryHeap::BinaryHeap p e -> Std::I64`
+#### `get_size : BinaryHeap::BinaryHeap p e -> Std::I64`
 
 Get the size of the heap.
 
-### `get_top : BinaryHeap::BinaryHeap p e -> Std::Option e`
+#### `get_top : BinaryHeap::BinaryHeap p e -> Std::Option e`
 
 Get the most prioritized element in the heap.
 
@@ -89,29 +89,29 @@ This function returns `none()` if the heap is empty.
 
 This function does not remove the element.
 
-### `pop : [p : BinaryHeap::Priority, BinaryHeap::Priority::Elem p = e] BinaryHeap::BinaryHeap p e -> BinaryHeap::BinaryHeap p e`
+#### `pop : [p : BinaryHeap::Priority, BinaryHeap::Priority::Elem p = e] BinaryHeap::BinaryHeap p e -> BinaryHeap::BinaryHeap p e`
 
 Pop the most prioritized element from the heap.
 
-### `push : [p : BinaryHeap::Priority, BinaryHeap::Priority::Elem p = e] e -> BinaryHeap::BinaryHeap p e -> BinaryHeap::BinaryHeap p e`
+#### `push : [p : BinaryHeap::Priority, BinaryHeap::Priority::Elem p = e] e -> BinaryHeap::BinaryHeap p e -> BinaryHeap::BinaryHeap p e`
 
 Push an element to the heap.
 
-## `namespace BinaryHeap::MaxBinaryHeap`
+### `namespace BinaryHeap::MaxBinaryHeap`
 
-### `empty : BinaryHeap::MaxBinaryHeap e`
+#### `empty : BinaryHeap::MaxBinaryHeap e`
 
 Create an empty maximum heap.
 
-## `namespace BinaryHeap::MinBinaryHeap`
+### `namespace BinaryHeap::MinBinaryHeap`
 
-### `empty : BinaryHeap::MinBinaryHeap e`
+#### `empty : BinaryHeap::MinBinaryHeap e`
 
 Create an empty minimum heap.
 
-## `namespace BinaryHeap::Priority`
+### `namespace BinaryHeap::Priority`
 
-### `compare : [p : BinaryHeap::Priority] BinaryHeap::Priority::Elem p -> BinaryHeap::Priority::Elem p -> p -> Std::Bool`
+#### `compare : [p : BinaryHeap::Priority] BinaryHeap::Priority::Elem p -> BinaryHeap::Priority::Elem p -> p -> Std::Bool`
 
 Compare two elements.
 
