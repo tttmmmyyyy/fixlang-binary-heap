@@ -101,7 +101,8 @@ test_minimum = (
 
     let heap = heap.push(2);
     // [1, 2]
-    assert_eq(|_|"3", heap.get_top, some(1));;
+    assert_eq(|_|"3-1", heap.get_top, some(1));;
+    assert_eq(|_|"3-2", heap.get_size, 2);;
 
     let heap = heap.pop;
     // [2]

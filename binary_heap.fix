@@ -11,6 +11,34 @@ import BinaryHeap.BinaryArrayTree;
 // The priority objects that prioritize the maximum or minimum value based on comparison with the `LessThan` trait are 
 // provided in this module (`PriorityMaximum` and `PriorityMinimum`).
 // It is recommended to use the `MaxBinaryHeap` and `MinBinaryHeap` type aliases when using them.
+// 
+// Example:
+// ```
+// test_minimum : IO ();
+// test_minimum = (
+//     let heap = MinBinaryHeap::empty : MinBinaryHeap I64;
+//     assert_eq(|_|"1", heap.get_top, none());;
+//
+//     let heap = heap.push(1);
+//     // [1]
+//     assert_eq(|_|"2", heap.get_top, some(1));;
+// 
+//     let heap = heap.push(2);
+//     // [1, 2]
+//     assert_eq(|_|"3-1", heap.get_top, some(1));;
+//     assert_eq(|_|"3-2", heap.get_size, 2);;
+// 
+//     let heap = heap.pop;
+//     // [2]
+//     assert_eq(|_|"4", heap.get_top, some(2));;
+// 
+//     let heap = heap.pop;
+//     // []
+//     assert_eq(|_|"5", heap.get_top, none());;
+// 
+//     pure()
+// );
+// ```
 type BinaryHeap p e = unbox struct { _d : Array e, _p : p };
 
 // The maximum binary heap.
