@@ -22,8 +22,9 @@ Get the index of the right child
 
 Type: `Std::I64 -> Std::I64`
 
-Get the index of the parent
-This function does not check if the index is valid.
+Get the index of the parent.
+
+This function does not check whether the index is valid.
 
 ## Types and aliases
 
