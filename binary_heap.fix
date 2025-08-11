@@ -104,6 +104,10 @@ namespace BinaryHeap {
     empty : p -> BinaryHeap p e;
     empty = |p| BinaryHeap { _d : [], _p : p };
 
+    // Check if the heap is empty.
+    is_empty : BinaryHeap p e -> Bool;
+    is_empty = |heap| heap.get_size == 0;
+
     _at : I64 -> BinaryHeap p e -> e;
     _at = |i, heap| heap.@_d.@(i);
 

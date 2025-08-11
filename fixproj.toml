@@ -3,7 +3,7 @@
 name = "binary-heap"
 
 ## Project version (in semver). This is a required field.
-version = "0.1.1"
+version = "0.1.2"
 
 ## Project authors.
 # authors = ["Alice", "Bob"]

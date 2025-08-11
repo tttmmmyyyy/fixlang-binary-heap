@@ -6,6 +6,7 @@ test_common : IO ();
 test_common = (
     let heap = BinaryHeap::empty(PriorityMaximum {});
     assert_eq(|_|"1", heap.get_top, none());;
+    assert(|_|"1.5", heap.is_empty);;
 
     let heap = heap.push(3);
     // [3]
@@ -62,6 +63,7 @@ test_common = (
     let heap = heap.pop;
     // []
     assert_eq(|_|"17", heap.get_top, none());;
+    assert(|_|"18", heap.is_empty);;
 
     pure()
 );
