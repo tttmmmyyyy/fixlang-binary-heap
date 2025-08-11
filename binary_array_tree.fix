@@ -12,8 +12,9 @@ namespace BinaryArrayTree {
     child_idx_r : I64 -> I64;
     child_idx_r = |i| 2*i + 2;
 
-    // Get the index of the parent
-    // This function does not check if the index is valid.
+    // Get the index of the parent.
+    // 
+    // This function does not check whether the index is valid.
     parent_idx_uncheck : I64 -> I64;
     parent_idx_uncheck = |i| (i - 1) / 2;
 }
