@@ -1,6 +1,7 @@
 // This module provides a [binary heap](https://en.wikipedia.org/wiki/Binary_heap) implementation.
 module BinaryHeap;
 
+import Std::* hiding Indexable::Elem;
 import BinaryHeap.BinaryArrayTree;
 
 // The binary heap.
