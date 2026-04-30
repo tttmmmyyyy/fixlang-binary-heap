@@ -1,6 +1,6 @@
 # BinaryHeap.BinaryArrayTree
 
-Defined in binary-heap@0.1.1
+Defined in binary-heap@0.2.1
 
 ## Values
 

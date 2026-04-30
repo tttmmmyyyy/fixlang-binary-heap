@@ -1,6 +1,6 @@
 # BinaryHeap
 
-Defined in binary-heap@0.1.1
+Defined in binary-heap@0.2.1
 
 This module provides a [binary heap](https://en.wikipedia.org/wiki/Binary_heap) implementation.
 
@@ -31,6 +31,12 @@ Get the most prioritized element in the heap.
 This function returns `none()` if the heap is empty.
 
 This function does not remove the element.
+
+#### is_empty
+
+Type: `BinaryHeap::BinaryHeap p e -> Std::Bool`
+
+Check if the heap is empty.
 
 #### pop
 
@@ -65,6 +71,8 @@ Create an empty minimum heap.
 #### compare
 
 Type: `[p : BinaryHeap::Priority] BinaryHeap::Priority::Elem p -> BinaryHeap::Priority::Elem p -> p -> Std::Bool`
+
+Trait member of `BinaryHeap::Priority`
 
 Compare two elements.
 
@@ -114,14 +122,6 @@ test_minimum = (
     pure()
 );
 ```
-
-##### field `_d`
-
-Type: `Std::Array e`
-
-##### field `_p`
-
-Type: `p`
 
 #### MaxBinaryHeap
 

@@ -89,7 +89,7 @@ impl [e : LessThan] PriorityMinimum e : Priority {
 namespace BinaryHeap {
     // Get the size of the heap.
     get_size : BinaryHeap p e -> I64;
-    get_size = |heap| heap.@_d.get_size;
+    get_size = |heap| heap.@_d.@size;
 
     // Get the most prioritized element in the heap.
     //
