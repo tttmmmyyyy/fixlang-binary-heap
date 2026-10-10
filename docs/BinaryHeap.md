@@ -95,32 +95,14 @@ The priority objects that prioritize the maximum or minimum value based on compa
 provided in this module (`PriorityMaximum` and `PriorityMinimum`).
 It is recommended to use the `MaxBinaryHeap` and `MinBinaryHeap` type aliases when using them.
 
-Example:
-```
-test_minimum : IO ();
-test_minimum = (
-    let heap = MinBinaryHeap::empty : MinBinaryHeap I64;
-    assert_eq(|_|"1", heap.get_top, none());;
+##### Examples
 
-    let heap = heap.push(1);
-    // [1]
-    assert_eq(|_|"2", heap.get_top, some(1));;
-
-    let heap = heap.push(2);
-    // [1, 2]
-    assert_eq(|_|"3-1", heap.get_top, some(1));;
-    assert_eq(|_|"3-2", heap.get_size, 2);;
-
-    let heap = heap.pop;
-    // [2]
-    assert_eq(|_|"4", heap.get_top, some(2));;
-
-    let heap = heap.pop;
-    // []
-    assert_eq(|_|"5", heap.get_top, none());;
-
-    pure()
-);
+```fix
+let heap = MinBinaryHeap::empty.push(3).push(1).push(2);
+assert_eq(|_|"", heap.get_top, some(1));;
+let heap = heap.pop;
+assert_eq(|_|"", heap.get_top, some(2));;
+assert_eq(|_|"", heap.get_size, 2)
 ```
 
 #### MaxBinaryHeap
@@ -154,6 +136,22 @@ Priority object that prioritizes the smaller element under comparison by `LessTh
 #### trait `p : Priority`
 
 The trait for priority objects.
+
+To order the elements in another way than `PriorityMaximum` and `PriorityMinimum` do, define a
+priority object and pass it to `BinaryHeap::empty`:
+
+```fix
+// Prioritizes the pair whose second component is smaller.
+type BySecond = struct {};
+
+impl BySecond : Priority {
+    type Elem BySecond = (String, I64);
+    compare = |x, y, _| x.@1 > y.@1;
+}
+
+let heap = BinaryHeap::empty(BySecond {}).push(("b", 2)).push(("a", 1)).push(("c", 3));
+assert_eq(|_|"", heap.get_top, some(("a", 1)))
+```
 
 ##### type `Elem`
 
